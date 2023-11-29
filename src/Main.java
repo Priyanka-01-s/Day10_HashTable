@@ -1,7 +1,3 @@
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
 public class Main {
     public static void main(String[] args) {
         System.out.println("HASHMAP TO CALCULATE WORD OCCURANCE\n");
@@ -13,38 +9,18 @@ public class Main {
         //clean and processed text
         String[] words = TextFormatting.cleanTexts(paragraph);
 
-        // Hash table to store word frequencies
-        Map<Integer, LinkedList<Node>> hashMap = new HashMap<>();
+        WordCounter wordCounter = new WordCounter();
+        wordCounter.processWords(words);
 
-         // Process each word in the array
-        for(String word: words){
-            int hash = HashWordCount.getHash(word);
-            // Check if the hash is already a key
-            if(!hashMap.containsKey(hash)){
-                hashMap.put(hash, new LinkedList<>());
-            }
+        // Display word frequencies
+        wordCounter.displayWordFrequencies();
 
-            LinkedList<Node> linkedList = hashMap.get(hash);
+        // Remove the word "avoidable"
+        wordCounter.removeWord("avoidable");
 
-            // Check if the word is already in the list
-            Node existingNode = HashWordCount.CountNodeByKey(linkedList, word);
-
-            if(existingNode != null){
-                //increment the value if found
-                existingNode.value++;
-            }else{
-                //if not then add the new node to the linkedlist
-                linkedList.add(new Node(word,1));
-            }
-        }
-
-        //Displaying the words and the frequency
-        for (Map.Entry<Integer, LinkedList<Node>> entry : hashMap.entrySet()) {
-            LinkedList<Node> linkedList = entry.getValue();
-            for (Node node : linkedList) {
-                System.out.println(node.key + ": " + node.value);
-            }
-        }
+        // Display word frequencies after removal
+        System.out.println("\nAfter removing 'avoidable':");
+        wordCounter.displayWordFrequencies();
 
         
     }
